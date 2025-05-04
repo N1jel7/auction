@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: my-auction
+  mvc:
+    static-path-pattern: ""
+logging:
+  level:
+    root: debug
