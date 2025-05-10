@@ -39,7 +39,6 @@ public class AuctionController {
         hBox.getChildren().add(new Label(lotResponseDto.name()));
         hBox.getChildren().add(new Label(lotResponseDto.type()));
         hBox.getChildren().add(new Label(lotResponseDto.price().toString()));
-        scrollPane.getChi
     }
 
     @FXML
