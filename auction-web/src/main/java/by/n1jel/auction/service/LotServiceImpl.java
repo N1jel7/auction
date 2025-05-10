@@ -7,10 +7,8 @@ import by.n1jel.auction.exception.LotNotFoundException;
 import by.n1jel.auction.mapper.LotMapper;
 import by.n1jel.auction.model.Lot;
 import by.n1jel.auction.utils.LotIdGenerator;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.HashMap;
 import java.util.List;
@@ -48,8 +46,8 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
-    public LotResponseDto edit(LotUpdateRequestDto lotUpdateRequestDto) {
-        Lot lot = lots.get(lotUpdateRequestDto.getId());
+    public LotResponseDto edit(Long id, LotUpdateRequestDto lotUpdateRequestDto) {
+        Lot lot = lots.get(id);
         if(lot != null){
             lotMapper.update(lot, lotUpdateRequestDto);
         }

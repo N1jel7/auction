@@ -4,7 +4,6 @@ import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.service.LotService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,8 +40,7 @@ public class LotsRestController {
 
     @PatchMapping("/{id}")
     public LotResponseDto update(@PathVariable Long id, @RequestBody @Validated LotUpdateRequestDto lotUpdateRequestDto) {
-        lotUpdateRequestDto.setId(id);
-        return lotService.edit(lotUpdateRequestDto);
+        return lotService.edit(id, lotUpdateRequestDto);
     }
 
     @DeleteMapping("/{id}")

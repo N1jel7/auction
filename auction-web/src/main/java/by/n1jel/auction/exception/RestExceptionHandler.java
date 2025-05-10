@@ -2,7 +2,6 @@ package by.n1jel.auction.exception;
 
 import by.n1jel.auction.dto.ErrorResponse;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageConversionException;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -22,22 +21,15 @@ public class RestExceptionHandler {
         List<String> errors = ex.getBindingResult().getFieldErrors().
                 stream().map(FieldError::getDefaultMessage).toList();
 
-        return ResponseEntity.status(406).body(ErrorResponse.builder()
-                .status(406)
-                .error("Validation failed")
-                .description(errors.toString())
-                .build());
+        return ResponseEntity.status(406).body(
+                new ErrorResponse(406, "Validation failed", errors.toString()));
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
     public ResponseEntity<ErrorResponse> handleNoHandlerFound(NoHandlerFoundException ex) {
         return ResponseEntity.status(404)
                 .body(
-                        ErrorResponse.builder()
-                                .status(404)
-                                .error(ex.getMessage())
-                                .description(ex.getLocalizedMessage())
-                                .build()
+                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
@@ -47,11 +39,7 @@ public class RestExceptionHandler {
 
         return ResponseEntity.status(404)
                 .body(
-                        ErrorResponse.builder()
-                        .status(404)
-                        .error(ex.getMessage())
-                        .description(ex.getLocalizedMessage())
-                        .build()
+                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
@@ -60,11 +48,7 @@ public class RestExceptionHandler {
 
         return ResponseEntity.status(405)
                 .body(
-                        ErrorResponse.builder()
-                                .status(405)
-                                .error(ex.getMessage())
-                                .description(ex.getLocalizedMessage())
-                                .build()
+                        new ErrorResponse(405, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
@@ -73,11 +57,7 @@ public class RestExceptionHandler {
 
         return ResponseEntity.status(404)
                 .body(
-                        ErrorResponse.builder()
-                                .status(404)
-                                .error(ex.getMessage())
-                                .description(ex.getLocalizedMessage())
-                                .build()
+                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
@@ -86,11 +66,7 @@ public class RestExceptionHandler {
 
         return ResponseEntity.status(406)
                 .body(
-                        ErrorResponse.builder()
-                                .status(406)
-                                .error(ex.getMessage())
-                                .description(ex.getLocalizedMessage())
-                                .build()
+                        new ErrorResponse(406, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 

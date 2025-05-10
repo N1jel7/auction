@@ -12,7 +12,7 @@ public interface LotService {
     List<LotResponseDto> getAll();
     LotResponseDto get(Long id);
     LotResponseDto create(LotCreateRequestDto lotCreateRequestDto);
-    LotResponseDto edit(LotUpdateRequestDto lotUpdateRequestDto);
+    LotResponseDto edit(Long id, LotUpdateRequestDto lotUpdateRequestDto);
     LotResponseDto delete(Long id);
 
 }

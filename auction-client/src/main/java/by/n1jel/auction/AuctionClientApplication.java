@@ -1,13 +1,13 @@
-package by.n1jel.auctionclient;
+package by.n1jel.auction;
 
-import org.springframework.boot.SpringApplication;
+import javafx.application.Application;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class AuctionClientApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(AuctionClientApplication.class, args);
+        Application.launch(JavaFxApplication.class, args);
     }
 
 }
