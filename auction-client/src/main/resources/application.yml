@@ -4,4 +4,4 @@ server:
   port: 8081
 logging:
   level:
-    root: debug
+    by: debug

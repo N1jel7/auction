@@ -1,4 +1,4 @@
-package by.n1jel.auction;
+package by.n1jel.auction.controller;
 
 import javafx.stage.Stage;
 import org.springframework.context.ApplicationEvent;

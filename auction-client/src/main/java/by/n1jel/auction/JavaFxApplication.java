@@ -1,5 +1,6 @@
 package by.n1jel.auction;
 
+import by.n1jel.auction.controller.StageReadyEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.stage.Stage;

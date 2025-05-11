@@ -1,6 +1,5 @@
-package by.n1jel.auction;
+package by.n1jel.auction.controller;
 
-import by.n1jel.auction.controller.AuctionController;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import net.rgielen.fxweaver.core.FxWeaver;

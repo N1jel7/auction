@@ -8,27 +8,22 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
-import net.rgielen.fxweaver.core.FxControllerAndView;
-import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
-import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
+
 
 @RequiredArgsConstructor
 @Component
 @FxmlView("modal-create.fxml")
 public class ModalCreateController {
 
-    private Stage stage;
-
-    private final ApplicationContext applicationContext;
     private final AuctionLotClientService clientService;
-    private final FxWeaver fxWeaver;
+
+    private Stage stage;
 
     @FXML
     TextField nameField, priceField, typeField;
@@ -47,8 +42,8 @@ public class ModalCreateController {
     }
 
     public void create() {
-        LotResponseDto lotResponseDto = clientService.create(clientService.mapFieldsToDto(nameField, priceField, typeField));
-        if(lotResponseDto != null) {
+        LotResponseDto LotResponseDto = clientService.create(clientService.mapFieldsToCreateDto(nameField, priceField, typeField));
+        if (LotResponseDto != null) {
             Alert alert = AlertUtil.getAlert(Alert.AlertType.INFORMATION, "Success", "Lot successfully created");
             alert.showAndWait();
             stage.close();
