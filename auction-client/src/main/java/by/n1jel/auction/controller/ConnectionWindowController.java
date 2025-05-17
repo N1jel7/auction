@@ -17,8 +17,8 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 @Component
 @RequiredArgsConstructor
-@FxmlView("connection-provider.fxml")
-public class ConnectionProviderController {
+@FxmlView("connection-window.fxml")
+public class ConnectionWindowController {
 
     private final AuctionLotClientService clientService;
     private final FxWeaver fxWeaver;
@@ -34,7 +34,7 @@ public class ConnectionProviderController {
 
     public void connect() {
         boolean addressFilled = !addressField.getText().isEmpty();
-        boolean connected = clientService.isAddressAlivegit (addressField.getText());
+        boolean connected = clientService.isAddressAlive(addressField.getText());
 
         if (addressFilled && connected) {
             fxWeaver.loadController(AuctionController.class).show();

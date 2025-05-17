@@ -57,7 +57,7 @@
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#reset" prefHeight="28.0" prefWidth="100.0" text="Reset" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#clear" prefHeight="28.0" prefWidth="100.0" text="Reset" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>

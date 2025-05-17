@@ -1,19 +1,27 @@
 package by.n1jel.auction.controller;
 
+import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
+import by.n1jel.auction.exception.EmptyFieldException;
+import by.n1jel.auction.exception.UiAlertException;
 import by.n1jel.auction.service.AuctionLotClientService;
 import by.n1jel.auction.utils.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
+
+import static javafx.scene.control.Alert.AlertType.ERROR;
+import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 
 @RequiredArgsConstructor
@@ -22,11 +30,16 @@ import org.springframework.stereotype.Component;
 public class ModalCreateController {
 
     private final AuctionLotClientService clientService;
+    private final FxWeaver fxWeaver;
 
     private Stage stage;
 
     @FXML
-    TextField nameField, priceField, typeField;
+    private TextField nameField;
+    @FXML
+    private TextField priceField;
+    @FXML
+    private TextField typeField;
 
     @FXML
     Button saveButton, resetButton;
@@ -41,31 +54,35 @@ public class ModalCreateController {
 
     }
 
-    public void create() {
-        LotResponseDto LotResponseDto = clientService.create(clientService.mapFieldsToCreateDto(nameField, priceField, typeField));
-        if (LotResponseDto != null) {
-            Alert alert = AlertUtil.getAlert(Alert.AlertType.INFORMATION, "Success", "Lot successfully created");
-            alert.showAndWait();
-            stage.close();
+    private LotCreateRequestDto getCreateRequest(){
+        if(!nameField.getText().trim().isEmpty() && !typeField.getText().trim().isEmpty() && !priceField.getText().trim().isEmpty()) {
+            return new LotCreateRequestDto(nameField.getText(), typeField.getText(), new BigDecimal(priceField.getText()));
         } else {
-            Alert alert = AlertUtil.getAlert(Alert.AlertType.ERROR, "Error", "Can't create lot, try again");
-            alert.showAndWait();
-            reset();
+            AlertUtil.getAlert(ERROR, "Some fields are missing", "Fill the empty fields first");
+            return null;
         }
     }
 
-    public void reset() {
+    public void create() {
+        LotResponseDto lotResponseDto = null;
+        try{
+            lotResponseDto = clientService.create(getCreateRequest());
+        } catch (UiAlertException ex){
+            AlertUtil.getAlert(ERROR, "Error", ex.getMessage(), ex.getDescription())
+                    .showAndWait();
+        }
+        if (lotResponseDto != null) {
+            AlertUtil.getAlert(INFORMATION, "Success", "Lot successfully created")
+                    .showAndWait();
+            fxWeaver.loadController(AuctionController.class).refreshLots();
+            stage.close();
+        }
+    }
+
+    public void clear() {
         nameField.clear();
         priceField.clear();
         typeField.clear();
-    }
-
-    public void edit() {
-
-    }
-
-    public void delete() {
-
     }
 
     public void show() {

@@ -1,9 +1,11 @@
 package by.n1jel.auction.service;
 
+import by.n1jel.auction.config.ClientProperties;
 import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.exception.EmptyFieldException;
+import by.n1jel.auction.exception.UiAlertException;
 import javafx.scene.control.TextField;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +22,7 @@ import java.util.List;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public abstract class AuctionLotRestClientServiceImpl implements AuctionLotClientService {
+public class AuctionLotRestClientServiceImpl implements AuctionLotClientService {
 
     private final RestTemplate restTemplate;
 
@@ -62,35 +64,44 @@ public abstract class AuctionLotRestClientServiceImpl implements AuctionLotClien
 
     @Override
     public LotResponseDto create(LotCreateRequestDto lotCreateRequestDto) {
-        ResponseEntity<LotResponseDto> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/lots", HttpMethod.POST,
-                new HttpEntity<>(lotCreateRequestDto),
-                new ParameterizedTypeReference<LotResponseDto>() {
-                }
-        );
+        ResponseEntity<LotResponseDto> response = null;
+        try {
+            response = restTemplate.exchange(
+                    "http://localhost:8080/api/v1/lots", HttpMethod.POST,
+                    new HttpEntity<>(lotCreateRequestDto),
+                    new ParameterizedTypeReference<LotResponseDto>() {
+                    }
+            );
+        } catch (Exception e) {
+            throw new UiAlertException(e.getMessage(), e.getLocalizedMessage());
+        }
 
-        if (response.getStatusCode().is2xxSuccessful()) {
+        if(response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {
-            log.error("Can't create lot on the server: {}", response);
             return null;
         }
+
     }
 
     @Override
     public LotResponseDto updateById(Long id, LotUpdateRequestDto lotUpdateRequestDto) {
-        ResponseEntity<LotResponseDto> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/lots/{id}", HttpMethod.PATCH,
-                new HttpEntity<>(lotUpdateRequestDto),
-                new ParameterizedTypeReference<LotResponseDto>() {
-                },
-                id
-        );
+        ResponseEntity<LotResponseDto> response = null;
+        try {
+            response = restTemplate.exchange(
+                    "http://localhost:8080/api/v1/lots/{id}", HttpMethod.PATCH,
+                    new HttpEntity<>(lotUpdateRequestDto),
+                    new ParameterizedTypeReference<LotResponseDto>() {
+                    },
+                    id
+            );
+        } catch (Exception e) {
+            throw new UiAlertException(e.getMessage(), e.getLocalizedMessage());
+        }
 
-        if (response.getStatusCode().is2xxSuccessful()) {
+        if(response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {
-            log.error("Can't update lot with id={} on the server: {}", id, response);
             return null;
         }
     }
@@ -128,4 +139,24 @@ public abstract class AuctionLotRestClientServiceImpl implements AuctionLotClien
         }
     }
 
+    @Override
+    public boolean isAddressAlive(String address) {
+        ResponseEntity<List<LotResponseDto>> response = null;
+        try {
+            response = restTemplate.exchange(
+                    address + "/api/v1/lots",
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<List<LotResponseDto>>() {
+                    }
+            );
+        } catch (Exception e) {
+            log.error("Server with address '{}' not responding", address);
+            return false;
+        }
+
+
+        return true;
+
+    }
 }

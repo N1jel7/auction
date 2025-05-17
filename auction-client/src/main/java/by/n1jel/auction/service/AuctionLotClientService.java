@@ -15,4 +15,5 @@ public interface AuctionLotClientService {
     LotResponseDto updateById(Long id, LotUpdateRequestDto lotUpdateRequestDto);
     LotResponseDto deleteById(Long id);
     LotCreateRequestDto mapFieldsToCreateDto(TextField name, TextField price, TextField type);
+    boolean isAddressAlive(String address);
 }

@@ -1,6 +1,8 @@
 package by.n1jel.auction.controller;
 
+import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
+import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.exception.UiAlertException;
 import by.n1jel.auction.service.AuctionLotClientService;
 import by.n1jel.auction.utils.AlertUtil;
@@ -14,6 +16,8 @@ import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
+
+import java.math.BigDecimal;
 
 import static javafx.scene.control.Alert.AlertType.ERROR;
 import static javafx.scene.control.Alert.AlertType.INFORMATION;
@@ -47,10 +51,19 @@ public class ModalEditController {
 
     }
 
+    private LotUpdateRequestDto getUpdateRequest(){
+        if(!nameField.getText().trim().isEmpty() && !typeField.getText().trim().isEmpty() && !priceField.getText().trim().isEmpty()) {
+            return new LotUpdateRequestDto(nameField.getText(), typeField.getText(), new BigDecimal(priceField.getText()));
+        } else {
+            AlertUtil.getAlert(ERROR, "Some fields are missing", "Fill the empty fields first");
+            return null;
+        }
+    }
+
     public void edit() {
         LotResponseDto lotResponseDto = null;
         try{
-            lotResponseDto = clientService.updateById(currentLot.id(), clientService.mapFieldsToUpdateDto(nameField, priceField, typeField));
+            lotResponseDto = clientService.updateById(currentLot.id(), getUpdateRequest());
         } catch (UiAlertException ex){
             AlertUtil.getAlert(ERROR, "Error", ex.getMessage(), ex.getDescription())
                     .showAndWait();
