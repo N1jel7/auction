@@ -6,3 +6,6 @@ spring:
 logging:
   level:
     root: debug
+jwt:
+  secret-key: UFYampj7CbGn3DQy9PvNLqwgJdK6WtSArBeR2xu5fZkHzshcVT
+  lifetime: 120000

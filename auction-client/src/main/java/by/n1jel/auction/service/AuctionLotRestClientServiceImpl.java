@@ -25,11 +25,12 @@ import java.util.List;
 public class AuctionLotRestClientServiceImpl implements AuctionLotClientService {
 
     private final RestTemplate restTemplate;
+    private final ClientProperties properties;
 
     @Override
     public List<LotResponseDto> findAll() {
         ResponseEntity<List<LotResponseDto>> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/lots",
+                properties.getBaseUrl() + "/api/v1/lots",
                 HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<List<LotResponseDto>>() {
@@ -47,7 +48,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
     @Override
     public LotResponseDto findById(Long id) {
         ResponseEntity<LotResponseDto> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/lots/{id}", HttpMethod.GET,
+                properties.getBaseUrl() + "/api/v1/lots/{id}", HttpMethod.GET,
                 null,
                 new ParameterizedTypeReference<LotResponseDto>() {
                 },
@@ -67,7 +68,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
         ResponseEntity<LotResponseDto> response = null;
         try {
             response = restTemplate.exchange(
-                    "http://localhost:8080/api/v1/lots", HttpMethod.POST,
+                    properties.getBaseUrl() + "/api/v1/lots", HttpMethod.POST,
                     new HttpEntity<>(lotCreateRequestDto),
                     new ParameterizedTypeReference<LotResponseDto>() {
                     }
@@ -89,7 +90,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
         ResponseEntity<LotResponseDto> response = null;
         try {
             response = restTemplate.exchange(
-                    "http://localhost:8080/api/v1/lots/{id}", HttpMethod.PATCH,
+                    properties.getBaseUrl() + "/api/v1/lots/{id}", HttpMethod.PATCH,
                     new HttpEntity<>(lotUpdateRequestDto),
                     new ParameterizedTypeReference<LotResponseDto>() {
                     },
@@ -109,7 +110,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
     @Override
     public LotResponseDto deleteById(Long id) {
         ResponseEntity<LotResponseDto> response = restTemplate.exchange(
-                "http://localhost:8080/api/v1/lots/{id}",
+                properties.getBaseUrl() + "/api/v1/lots/{id}",
                 HttpMethod.DELETE,
                 null,
                 new ParameterizedTypeReference<LotResponseDto>() {
@@ -154,8 +155,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
             log.error("Server with address '{}' not responding", address);
             return false;
         }
-
-
+        properties.setBaseUrl(address);
         return true;
 
     }
