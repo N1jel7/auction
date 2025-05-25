@@ -4,6 +4,8 @@ import by.n1jel.auction.service.AuctionLotClientService;
 import by.n1jel.auction.utils.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import lombok.Getter;
@@ -22,7 +24,7 @@ public class ConnectionWindowController {
 
     private final AuctionLotClientService clientService;
     private final FxWeaver fxWeaver;
-    @Getter
+
     private Stage stage;
 
     @FXML

@@ -1,7 +1,7 @@
 package by.n1jel.auction.mapper;
 
-import by.n1jel.auction.dto.RegistrationRequest;
-import by.n1jel.auction.model.User;
+import by.n1jel.auction.dto.RegistrationRequestDto;
+import by.n1jel.auction.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -13,9 +13,9 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface UserMapper {
-    User mapToUser(RegistrationRequest registrationRequest);
+    User mapToUser(RegistrationRequestDto registrationRequest);
 
-    List<User> mapToUser(List<RegistrationRequest> registrationRequestList);
+    List<User> mapToUser(List<RegistrationRequestDto> registrationRequestList);
 
 
 }

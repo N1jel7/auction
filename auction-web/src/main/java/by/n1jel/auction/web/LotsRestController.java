@@ -5,7 +5,6 @@ import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.service.LotService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +23,8 @@ public class LotsRestController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LotResponseDto> get(@PathVariable Long id) {
-        LotResponseDto response = lotService.get(id);
-        if(response == null){
-            return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok(response);
-        }
+    public LotResponseDto get(@PathVariable Long id) {
+        return lotService.findLotDtoById(id);
     }
 
     @PostMapping
@@ -44,13 +38,8 @@ public class LotsRestController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<LotResponseDto> delete(@PathVariable Long id) {
-        LotResponseDto response = lotService.delete(id);
-        if(response == null){
-            return ResponseEntity.notFound().build();
-        }else {
-            return ResponseEntity.ok(response);
-        }
+    public LotResponseDto delete(@PathVariable Long id) {
+        return lotService.delete(id);
     }
 }
 

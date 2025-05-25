@@ -3,63 +3,56 @@ package by.n1jel.auction.service;
 import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
+import by.n1jel.auction.entity.Lot;
 import by.n1jel.auction.exception.LotNotFoundException;
 import by.n1jel.auction.mapper.LotMapper;
-import by.n1jel.auction.model.Lot;
-import by.n1jel.auction.utils.LotIdGenerator;
+import by.n1jel.auction.repository.LotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RequiredArgsConstructor
 @Service
 public class LotServiceImpl implements LotService {
 
-    private final Map<Long, Lot> lots = new HashMap<>();
+    private final LotRepository lotRepository;
     private final LotMapper lotMapper;
-    private final LotIdGenerator lotIdGenerator;
 
 
     @Override
     public List<LotResponseDto> getAll() {
-        return lotMapper.mapToResponse(lots.values());
+        return lotMapper.mapToResponse(lotRepository.findAll());
     }
 
     @Override
-    public LotResponseDto get(Long id) {
-        if(lots.get(id) == null){
-            throw new LotNotFoundException("Lot not found", new Throwable("Lot with id " + id + " not found."));
-        }
-        return lotMapper.mapToResponse(lots.get(id));
+    public LotResponseDto findLotDtoById(Long id) {
+        return lotMapper.mapToResponse(findLotById(id));
+    }
+
+    @Override
+    public Lot findLotById(Long id) {
+        return lotRepository.findLotById(id).orElseThrow(() -> new LotNotFoundException("Lot with id " + id + " not found"));
     }
 
     @Override
     public LotResponseDto create(LotCreateRequestDto lotCreateRequestDto) {
         Lot lot = lotMapper.mapToEntity(lotCreateRequestDto);
-        Long lotId = lotIdGenerator.getId();
-        lot.setId(lotId);
-        lots.put(lotId, lot);
+        lotRepository.save(lot);
         return lotMapper.mapToResponse(lot);
     }
 
     @Override
     public LotResponseDto edit(Long id, LotUpdateRequestDto lotUpdateRequestDto) {
-        Lot lot = lots.get(id);
-        if(lot != null){
-            lotMapper.update(lot, lotUpdateRequestDto);
-        }
+        Lot lot = findLotById(id);
+        lot = lotMapper.update(lot, lotUpdateRequestDto);
         return lotMapper.mapToResponse(lot);
     }
 
     @Override
     public LotResponseDto delete(Long id) {
-        Lot lot = lots.get(id);
-        lots.remove(id);
-        return lotMapper.mapToResponse(
-                lot
-        );
+        Lot lot = findLotById(id);
+        lotRepository.deleteById(id);
+        return lotMapper.mapToResponse(lot);
     }
 }

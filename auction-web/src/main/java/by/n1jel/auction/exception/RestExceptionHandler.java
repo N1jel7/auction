@@ -1,7 +1,6 @@
 package by.n1jel.auction.exception;
 
-import by.n1jel.auction.config.JwtAuthenticationEntryPoint;
-import by.n1jel.auction.dto.ErrorResponse;
+import by.n1jel.auction.dto.ErrorResponseDto;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -19,60 +18,60 @@ import java.util.List;
 public class RestExceptionHandler {
 
     @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ErrorResponse> badCredentials(BadCredentialsException ex){
+    public ResponseEntity<ErrorResponseDto> badCredentials(BadCredentialsException ex){
         return ResponseEntity.status(401)
                 .body(
-                        new ErrorResponse(401, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(401, ex.getMessage(), "Wrong password or username")
                 );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ErrorResponse> handleArgumentNotValid(MethodArgumentNotValidException ex){
+    public ResponseEntity<ErrorResponseDto> handleArgumentNotValid(MethodArgumentNotValidException ex){
         List<String> errors = ex.getBindingResult().getFieldErrors().
                 stream().map(FieldError::getDefaultMessage).toList();
 
         return ResponseEntity.status(406).body(
-                new ErrorResponse(406, "Validation failed", errors.toString()));
+                new ErrorResponseDto(406, "Validation failed", errors.toString()));
     }
 
     @ExceptionHandler(NoHandlerFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNoHandlerFound(NoHandlerFoundException ex) {
+    public ResponseEntity<ErrorResponseDto> handleNoHandlerFound(NoHandlerFoundException ex) {
         return ResponseEntity.status(404)
                 .body(
-                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
 
     @ExceptionHandler(LotNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleLotNotFound(LotNotFoundException ex) {
+    public ResponseEntity<ErrorResponseDto> handleLotNotFound(LotNotFoundException ex) {
         return ResponseEntity.status(404)
                 .body(
-                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
     @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-    public ResponseEntity<ErrorResponse> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
+    public ResponseEntity<ErrorResponseDto> handleMethodNotSupported(HttpRequestMethodNotSupportedException ex) {
         return ResponseEntity.status(405)
                 .body(
-                        new ErrorResponse(405, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(405, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
-    public ResponseEntity<ErrorResponse> handleMethodArgumentMismatch(MethodArgumentTypeMismatchException ex) {
+    public ResponseEntity<ErrorResponseDto> handleMethodArgumentMismatch(MethodArgumentTypeMismatchException ex) {
         return ResponseEntity.status(404)
                 .body(
-                        new ErrorResponse(404, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(404, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)
-    public ResponseEntity<ErrorResponse> handleMessageNotReadable(HttpMessageNotReadableException ex) {
+    public ResponseEntity<ErrorResponseDto> handleMessageNotReadable(HttpMessageNotReadableException ex) {
         return ResponseEntity.status(406)
                 .body(
-                        new ErrorResponse(406, ex.getMessage(), ex.getLocalizedMessage())
+                        new ErrorResponseDto(406, ex.getMessage(), ex.getLocalizedMessage())
                 );
     }
 

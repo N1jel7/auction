@@ -1,11 +1,30 @@
+    # Logging props
+logging:
+  level:
+    root: info
+
+    # Spring props
 spring:
   application:
     name: my-auction
   mvc:
     static-path-pattern: ""
-logging:
-  level:
-    root: debug
+
+    # JPA props
+  jpa:
+    open-in-view: true
+    hibernate:
+      ddl-auto: create-drop
+
+    # DB props
+  datasource:
+    url: jdbc:postgresql://localhost:5435/auction
+    username: root
+    password: 5252025
+    driverClassName: org.postgresql.Driver
+
+    #JWT simple props
 jwt:
-  secret-key: UFYampj7CbGn3DQy9PvNLqwgJdK6WtSArBeR2xu5fZkHzshcVT
-  lifetime: 120000
+  secret_key: 4eeab38d706831be4b36612ead768ef8182d1dd6f0e14e5dc934652e297fb16a
+  access_token_expiration: 3600000 # 10 hours
+  refresh_token_expiration: 252000000 # 7 days

@@ -10,9 +10,9 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="providerView" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.n1jel.auction.controller.ConnectionWindowController">
+<AnchorPane fx:id="providerView" prefHeight="300.0" prefWidth="500.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.n1jel.auction.controller.ConnectionWindowController">
    <children>
-      <GridPane prefHeight="400.0" prefWidth="600.0">
+      <GridPane prefHeight="300.0" prefWidth="500.0">
         <columnConstraints>
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
         </columnConstraints>
@@ -22,15 +22,18 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label text="Enter server address" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+            <Label prefHeight="80.0" prefWidth="313.0" text="Welcome to the auction app&#10;Enter server address to continue" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
-                  <Font size="38.0" />
+                  <Font size="22.0" />
                </font>
             </Label>
-            <TextField fx:id="addressField" promptText="http://localhost:8080" text="http://localhost:8080" GridPane.rowIndex="1">
+            <TextField fx:id="addressField" prefHeight="43.0" prefWidth="520.0" promptText="http://localhost:8080" text="http://localhost:8080" GridPane.rowIndex="1">
                <GridPane.margin>
-                  <Insets left="40.0" right="40.0" />
+                  <Insets left="60.0" right="60.0" />
                </GridPane.margin>
+               <font>
+                  <Font size="15.0" />
+               </font>
             </TextField>
             <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Connect" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>

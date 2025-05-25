@@ -1,33 +1,21 @@
 package by.n1jel.auction.service;
 
-import by.n1jel.auction.utils.UserConfig;
-import io.micrometer.common.util.StringUtils;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.User;
+import by.n1jel.auction.entity.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
+public interface UserService extends UserDetailsService {
 
-@RequiredArgsConstructor
-@Service
-@Slf4j
-public class UserService implements UserDetailsService {
+    UserDetails loadUserByUsername(String username) throws UsernameNotFoundException;
 
-    private final UserConfig userConfig;
+    boolean existsByUsername(String username);
 
+    boolean existsByEmail(String email);
 
-    @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        if (StringUtils.isEmpty(username) || userConfig.findByUsername(username) == null) {
-            throw new UsernameNotFoundException(String.format("User not found, or unauthorized %s", username));
-        }
+    User saveUser(User user);
 
-        by.n1jel.auction.model.User userFromConfig = userConfig.findByUsername(username);
-        return new User(userFromConfig.getUsername(), userFromConfig.getPassword(), new ArrayList<>());
-    }
+    User findUserById(Long id);
 
+    User findUserByUsername(String username);
 }

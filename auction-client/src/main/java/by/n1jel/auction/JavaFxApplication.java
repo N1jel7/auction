@@ -1,5 +1,6 @@
 package by.n1jel.auction;
 
+import atlantafx.base.theme.PrimerDark;
 import by.n1jel.auction.controller.StageReadyEvent;
 import javafx.application.Application;
 import javafx.application.Platform;
@@ -20,6 +21,7 @@ public class JavaFxApplication extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
+        Application.setUserAgentStylesheet(new PrimerDark().getUserAgentStylesheet());
         applicationContext.publishEvent(new StageReadyEvent(stage));
     }
 

@@ -1,8 +1,6 @@
 package by.n1jel.auction.dto;
 
-import lombok.Builder;
-
-public record ErrorResponse(
+public record ErrorResponseDto(
         long status,
         String error,
         String description
