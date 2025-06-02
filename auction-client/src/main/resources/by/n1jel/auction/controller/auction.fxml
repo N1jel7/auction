@@ -82,12 +82,12 @@
             <menus>
               <Menu mnemonicParsing="false" text="Меню">
                 <items>
-                  <MenuItem fx:id="logoutMenu" mnemonicParsing="false" text="Logout" />
+                  <MenuItem fx:id="logoutMenu" mnemonicParsing="false" text="Выйти" />
                 </items>
               </Menu>
               <Menu mnemonicParsing="false" text="Помощь">
                 <items>
-                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="About" />
+                  <MenuItem fx:id="aboutMenu" mnemonicParsing="false" text="О программе" />
                 </items>
               </Menu>
             </menus>

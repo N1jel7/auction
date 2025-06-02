@@ -130,7 +130,6 @@ public class BuyersController {
             refreshLots();
         });
 
-        pagination.setCurrentPageIndex(1);
         deleteButton.setOnAction((e) -> {
             LotResponseDto currentLot = lotsTable.getSelectionModel().getSelectedItem();
             if (currentLot != null) {

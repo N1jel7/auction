@@ -57,7 +57,7 @@
                <padding>
                   <Insets left="40.0" />
                </padding></Label>
-                <Button fx:id="loginButton" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Log in" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
+                <Button fx:id="loginButton" mnemonicParsing="false" prefHeight="26.0" prefWidth="110.0" text="Войти" GridPane.halignment="CENTER" GridPane.rowIndex="7" GridPane.valignment="CENTER" />
             </children>
         </GridPane>
     </children>

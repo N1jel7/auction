@@ -144,7 +144,7 @@ public class TraderController {
             }
         });
 
-        pagination.setCurrentPageIndex(1);
+        pagination.setCurrentPageIndex(0);
         pagination.setPageCount(tradersList.getTotalPages());
         pagination.setMaxPageIndicatorCount(5);
         pagination.setPageFactory(pageNum -> {

@@ -149,7 +149,6 @@ public class LotsActiveController {
                 AlertUtil.getAlert(WARNING, "Lot is not selected", "You need to select lot which you want to edit")
                         .showAndWait();
             }
-            lotsTable.getSelectionModel().clearSelection();
         });
 
         deleteButton.setOnAction((e) -> {
