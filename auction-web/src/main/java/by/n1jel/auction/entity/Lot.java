@@ -4,8 +4,10 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -27,4 +29,24 @@ public class Lot {
 
     @Column(name = "price")
     private BigDecimal price;
+
+    @CreationTimestamp
+    @Column(name = "creation_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime createdAt;
+
+    @Column(name = "sold_date")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime soldAt;
+
+    @Column(name = "is_sold")
+    private boolean sold;
+
+    @ManyToOne
+    @JoinColumn(name = "buyer")
+    private Trader buyer;
+
+    @ManyToOne
+    @JoinColumn(name = "seller")
+    private Trader seller;
 }

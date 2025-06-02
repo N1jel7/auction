@@ -1,11 +1,13 @@
 package by.n1jel.auction.service;
 
-import by.n1jel.auction.dto.*;
+import by.n1jel.auction.dto.AuthentificationResponseDto;
+import by.n1jel.auction.dto.LoginRequestDto;
+import by.n1jel.auction.dto.RegistrationRequestDto;
+import by.n1jel.auction.dto.RegistrationResponseDto;
 import by.n1jel.auction.entity.Token;
 import by.n1jel.auction.entity.User;
 import by.n1jel.auction.enums.Role;
 import by.n1jel.auction.repository.TokenRepository;
-import by.n1jel.auction.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -15,7 +17,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,15 +36,15 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 
     public ResponseEntity<RegistrationResponseDto> register(RegistrationRequestDto request) {
         List<String> errors = new ArrayList<>();
-        if(userService.existsByUsername(request.username())) {
+        if (userService.existsByUsername(request.username())) {
             errors.add("Username already taken");
         }
 
-        if(userService.existsByEmail(request.email())) {
+        if (userService.existsByEmail(request.email())) {
             errors.add("Email already taken");
         }
 
-        if(!errors.isEmpty()) {
+        if (!errors.isEmpty()) {
             return new ResponseEntity<>(new RegistrationResponseDto(400, "Fail", errors.toString()), HttpStatus.BAD_REQUEST);
         }
 
@@ -84,12 +85,7 @@ public class AuthentificationServiceImpl implements AuthentificationService {
 
     public AuthentificationResponseDto authenticate(LoginRequestDto request) {
 
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        request.username(),
-                        request.password()
-                )
-        );
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.username(), request.password()));
 
         User user = userService.findUserByUsername(request.username());
 
@@ -103,9 +99,7 @@ public class AuthentificationServiceImpl implements AuthentificationService {
         return new AuthentificationResponseDto(accessToken, refreshToken);
     }
 
-    public ResponseEntity<AuthentificationResponseDto> refreshToken(
-            HttpServletRequest request,
-            HttpServletResponse response) {
+    public ResponseEntity<AuthentificationResponseDto> refreshToken(HttpServletRequest request, HttpServletResponse response) {
 
         String authorizationHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="reportView" prefHeight="400.0" prefWidth="910.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.n1jel.auction.controller.ReportController">
+   <children>
+      <ScrollPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="667.0" prefWidth="895.0">
+               <children>
+                  <DatePicker fx:id="fromDatePicker" layoutX="40.0" layoutY="50.0" />
+                  <Label layoutX="20.0" layoutY="20.0" prefHeight="19.0" prefWidth="424.0" text="Укажите промежуток времени за который будет сформирован отчет" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font></Label>
+                  <DatePicker fx:id="toDatePicker" layoutX="310.0" layoutY="50.0" />
+                  <Label layoutX="20.0" layoutY="55.0" prefHeight="18.0" prefWidth="6.0" text="с" />
+                  <Label alignment="CENTER" layoutX="265.0" layoutY="55.0" prefHeight="18.0" prefWidth="33.0" text="по" />
+                  <Button fx:id="formButton" layoutX="535.0" layoutY="50.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="130.0" text="Сформировать" />
+                  <Label layoutX="20.0" layoutY="90.0" prefHeight="18.0" prefWidth="399.0" text="Конвертирование отчета">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <MenuButton fx:id="selectButton" disable="true" layoutX="40.0" layoutY="120.0" mnemonicParsing="false" text="Выберите тип">
+                    <items>
+                      <MenuItem fx:id="wordItem" mnemonicParsing="false" text="Word" />
+                      <MenuItem fx:id="excelItem" mnemonicParsing="false" text="Excel" />
+                    </items>
+                  </MenuButton>
+                  <Button fx:id="convertButton" disable="true" layoutX="180.0" layoutY="120.0" mnemonicParsing="false" prefHeight="26.0" prefWidth="140.0" text="Конвертировать" />
+                  <TableView fx:id="reportTableView" layoutX="18.0" layoutY="207.0" prefHeight="298.0" prefWidth="860.0" AnchorPane.rightAnchor="20.0">
+                    <columns>
+                      <TableColumn fx:id="lotIdColumn" prefWidth="59.19997328519821" text="№" />
+                      <TableColumn fx:id="lotTypeColumn" prefWidth="108.00000381469727" text="Тип" />
+                        <TableColumn fx:id="lotNameColumn" prefWidth="292.8000030517578" text="Имя" />
+                        <TableColumn fx:id="lotPriceColumn" prefWidth="157.60003662109375" text="Цена в $" />
+                        <TableColumn fx:id="lotSoldAtColumn" prefWidth="240.0" text="Дата продажи" />
+                    </columns>
+                  </TableView>
+                  <Label alignment="CENTER" layoutX="-3.0" layoutY="171.0" prefHeight="18.0" prefWidth="502.0" text="Проданные лоты за период" AnchorPane.bottomAnchor="744.2" AnchorPane.leftAnchor="-3.0" AnchorPane.rightAnchor="3.0">
+                     <font>
+                        <Font name="System Bold" size="24.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lotsPriceSumLabel" layoutX="20.0" layoutY="524.0" prefHeight="18.0" prefWidth="579.0" text="Общая сумма продаж за период: " AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lotsAmountLabel" layoutX="20.0" layoutY="552.0" prefHeight="18.0" prefWidth="579.0" text="Всего продано лотов: ">
+                     <font>
+                        <Font size="13.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+   </children>
+</AnchorPane>

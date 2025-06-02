@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox fx:id="modalCreateView" prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.n1jel.auction.controller.ModalCreateController">
+<VBox fx:id="modalEditView" prefHeight="500.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="by.n1jel.auction.controller.ModalTraderEditController">
    <children>
       <GridPane prefHeight="496.0" prefWidth="281.0">
          <columnConstraints>
@@ -26,43 +26,43 @@
             <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
          </rowConstraints>
          <children>
-            <Label text="Lot creation" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-            <Label text="Name" GridPane.rowIndex="1">
+            <Label text="Редактирование торговца" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+            <Label text="Фамилия" GridPane.rowIndex="1" GridPane.valignment="BOTTOM">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <TextField id="nameField" fx:id="nameField" GridPane.rowIndex="2">
+            <TextField id="nameField" fx:id="surnameField" GridPane.rowIndex="2">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Label text="Price" GridPane.rowIndex="3">
+            <Label text="Имя" GridPane.rowIndex="3" GridPane.valignment="BOTTOM">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <TextField id="priceField" fx:id="priceField" GridPane.rowIndex="4">
+            <TextField id="priceField" fx:id="nameField" GridPane.rowIndex="4">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <TextField id="typeField" fx:id="typeField" GridPane.rowIndex="6">
+            <TextField id="typeField" fx:id="patronymicField" GridPane.rowIndex="6">
                <GridPane.margin>
                   <Insets left="10.0" right="10.0" />
                </GridPane.margin>
             </TextField>
-            <Label text="Type" GridPane.rowIndex="5">
+            <Label text="Отчество" GridPane.rowIndex="5" GridPane.valignment="BOTTOM">
                <padding>
                   <Insets left="10.0" />
                </padding>
             </Label>
-            <Button fx:id="resetButton" mnemonicParsing="false" onAction="#clear" prefHeight="28.0" prefWidth="100.0" text="Reset" GridPane.halignment="LEFT" GridPane.rowIndex="7">
+            <Button fx:id="resetButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Сбросить" GridPane.halignment="LEFT" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets left="10.0" />
                </GridPane.margin>
             </Button>
-            <Button fx:id="saveButton" mnemonicParsing="false" onAction="#create" prefHeight="28.0" prefWidth="100.0" text="Save" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
+            <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="28.0" prefWidth="100.0" text="Сохранить" GridPane.halignment="RIGHT" GridPane.rowIndex="7">
                <GridPane.margin>
                   <Insets right="10.0" />
                </GridPane.margin>

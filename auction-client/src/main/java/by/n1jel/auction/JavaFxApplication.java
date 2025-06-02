@@ -1,6 +1,6 @@
 package by.n1jel.auction;
 
-import atlantafx.base.theme.PrimerDark;
+import atlantafx.base.theme.*;
 import by.n1jel.auction.controller.StageReadyEvent;
 import javafx.application.Application;
 import javafx.application.Platform;

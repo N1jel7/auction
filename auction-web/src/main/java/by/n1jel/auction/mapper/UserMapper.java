@@ -5,7 +5,6 @@ import by.n1jel.auction.entity.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
-
 import java.util.List;
 
 @Mapper(

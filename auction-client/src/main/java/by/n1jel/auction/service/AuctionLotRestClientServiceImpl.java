@@ -1,12 +1,9 @@
 package by.n1jel.auction.service;
 
 import by.n1jel.auction.config.ClientProperties;
-import by.n1jel.auction.dto.LotCreateRequestDto;
-import by.n1jel.auction.dto.LotResponseDto;
-import by.n1jel.auction.dto.LotUpdateRequestDto;
-import by.n1jel.auction.exception.EmptyFieldException;
+import by.n1jel.auction.dto.*;
 import by.n1jel.auction.exception.UiAlertException;
-import javafx.scene.control.TextField;
+import by.n1jel.auction.utils.CustomPageImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.ParameterizedTypeReference;
@@ -16,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @Slf4j
@@ -28,12 +24,13 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
     private final ClientProperties properties;
 
     @Override
-    public List<LotResponseDto> findAll() {
-        ResponseEntity<List<LotResponseDto>> response = restTemplate.exchange(
-                properties.getBaseUrl() + "/api/v1/lots",
+    public CustomPageImpl<LotResponseDto> findAll(int pageNumber, int pageSize) {
+        String url = properties.getBaseUrl() + "/api/v1/lots/page/" + pageNumber + "/" + pageSize;
+        ResponseEntity<CustomPageImpl<LotResponseDto>> response = restTemplate.exchange(
+                url,
                 HttpMethod.GET,
                 null,
-                new ParameterizedTypeReference<List<LotResponseDto>>() {
+                new ParameterizedTypeReference<CustomPageImpl<LotResponseDto>>() {
                 }
         );
 
@@ -77,12 +74,11 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
             throw new UiAlertException(e.getMessage(), e.getLocalizedMessage());
         }
 
-        if(response.getStatusCode().is2xxSuccessful()) {
+        if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {
             return null;
         }
-
     }
 
     @Override
@@ -100,7 +96,7 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
             throw new UiAlertException(e.getMessage(), e.getLocalizedMessage());
         }
 
-        if(response.getStatusCode().is2xxSuccessful()) {
+        if (response.getStatusCode().is2xxSuccessful()) {
             return response.getBody();
         } else {
             return null;
@@ -127,28 +123,14 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
     }
 
     @Override
-    public LotCreateRequestDto mapFieldsToCreateDto(TextField name, TextField price, TextField type) {
-        if (
-                !name.getText().trim().isEmpty() &&
-                        !price.getText().trim().isEmpty() &&
-                        !type.getText().trim().isEmpty()) {
-            BigDecimal bigDecimal = BigDecimal.valueOf(Double.parseDouble(price.getText()));
-            return new LotCreateRequestDto(name.getText(), type.getText(), bigDecimal);
-
-        } else {
-            throw new EmptyFieldException("Some fields are missing");
-        }
-    }
-
-    @Override
     public boolean isAddressAlive(String address) {
-        ResponseEntity<List<LotResponseDto>> response = null;
+        ResponseEntity<CustomPageImpl<LotResponseDto>> response = null;
         try {
             response = restTemplate.exchange(
-                    address + "/api/v1/lots",
+                    address + "/api/v1/lots/page/1/1",
                     HttpMethod.GET,
                     null,
-                    new ParameterizedTypeReference<List<LotResponseDto>>() {
+                    new ParameterizedTypeReference<CustomPageImpl<LotResponseDto>>() {
                     }
             );
         } catch (Exception e) {
@@ -158,5 +140,65 @@ public class AuctionLotRestClientServiceImpl implements AuctionLotClientService 
         properties.setBaseUrl(address);
         return true;
 
+    }
+
+    @Override
+    public CustomPageImpl<LotResponseDto> findAllActive(int pageNumber, int pageSize) {
+        String url = properties.getBaseUrl() + "/api/v1/lots/active/page/" + pageNumber + "/" + pageSize;
+        ResponseEntity<CustomPageImpl<LotResponseDto>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<CustomPageImpl<LotResponseDto>>() {
+                }
+        );
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            log.error("Can't retrieve active lots from the server: {}", response);
+            return null;
+        }
+    }
+
+    @Override
+    public CustomPageImpl<LotResponseDto> findAllSold(int pageNumber, int pageSize) {
+        String url = properties.getBaseUrl() + "/api/v1/lots/sold/page/" + pageNumber + "/" + pageSize;
+        ResponseEntity<CustomPageImpl<LotResponseDto>> response = restTemplate.exchange(
+                url,
+                HttpMethod.GET,
+                null,
+                new ParameterizedTypeReference<CustomPageImpl<LotResponseDto>>() {
+                }
+        );
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            log.error("Can't retrieve sold lots from the server: {}", response);
+            return null;
+        }
+    }
+
+    @Override
+    public ReportResponseDto getReport(ReportRequestDto reportRequestDto) {
+        ResponseEntity<ReportResponseDto> response = null;
+        try {
+            response = restTemplate.exchange(
+                    properties.getBaseUrl() + "/api/v1/lots/report",
+                    HttpMethod.POST,
+                    new HttpEntity<>(reportRequestDto),
+                    new ParameterizedTypeReference<ReportResponseDto>() {
+                    }
+            );
+        } catch (Exception e) {
+            throw new UiAlertException(e.getMessage(), e.getLocalizedMessage());
+        }
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return response.getBody();
+        } else {
+            return null;
+        }
     }
 }

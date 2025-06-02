@@ -22,7 +22,7 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
          <children>
-            <Label prefHeight="80.0" prefWidth="313.0" text="Welcome to the auction app&#10;Enter server address to continue" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
+            <Label prefHeight="80.0" prefWidth="464.0" text="Добро пожаловать&#10;Введите адресс сервера что бы продолжить" textAlignment="CENTER" GridPane.halignment="CENTER" GridPane.valignment="BOTTOM">
                <font>
                   <Font size="22.0" />
                </font>
@@ -35,7 +35,7 @@
                   <Font size="15.0" />
                </font>
             </TextField>
-            <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="50.0" prefWidth="130.0" text="Connect" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
+            <Button fx:id="connectButton" mnemonicParsing="false" prefHeight="51.0" prefWidth="221.0" text="Подключиться" GridPane.halignment="CENTER" GridPane.rowIndex="2" GridPane.valignment="CENTER">
                <font>
                   <Font size="24.0" />
                </font>

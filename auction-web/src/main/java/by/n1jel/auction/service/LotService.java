@@ -4,12 +4,20 @@ import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.entity.Lot;
+import org.springframework.data.domain.Page;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface LotService {
 
-    List<LotResponseDto> getAll();
+    List<LotResponseDto> getAllFromPeriod(LocalDate from, LocalDate to);
+
+    Page<LotResponseDto> getAll(int pageNumber, int pageSize);
+
+    Page<LotResponseDto> getAllActive(int pageNumber, int pageSize);
+
+    Page<LotResponseDto> getAllSold(int pageNumber, int pageSize);
 
     LotResponseDto findLotDtoById(Long id);
 

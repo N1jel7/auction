@@ -4,28 +4,68 @@ import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
 import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.entity.Lot;
-import org.mapstruct.Mapper;
-import org.mapstruct.MappingTarget;
-import org.mapstruct.NullValuePropertyMappingStrategy;
+import by.n1jel.auction.entity.Trader;
+import org.mapstruct.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
-import java.util.Collection;
 import java.util.List;
 
 @Mapper(
         componentModel = "spring",
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
-public interface LotMapper {
+public abstract class LotMapper {
 
-    LotResponseDto mapToResponse(Lot lot);
+    @Mapping(source = "buyer", target = "buyerFullname", qualifiedByName = "mapBuyerFullname")
+    @Mapping(source = "seller", target = "sellerFullname", qualifiedByName = "mapSellerFullname")
+    @Mapping(source = "buyer", target = "buyerId", qualifiedByName = "mapBuyerId")
+    @Mapping(source = "seller", target = "sellerId", qualifiedByName = "mapSellerId")
+    public abstract LotResponseDto mapEntityToResponse(Lot lot);
 
-    List<LotResponseDto> mapToResponse(Collection<Lot> lots);
+    public abstract List<LotResponseDto> mapEntityToResponse(List<Lot> lots);
 
-    Lot update(@MappingTarget Lot lot, LotUpdateRequestDto updateRequestDto);
+    public Page<LotResponseDto> mapEntityToResponse(Page<Lot> lots) {
+        return new PageImpl<>(
+                mapEntityToResponse(lots.toList()),
+                lots.getPageable(),
+                lots.getTotalElements()
+        );
+    }
 
+    public abstract Lot update(@MappingTarget Lot lot, LotUpdateRequestDto updateRequestDto);
 
-    Lot mapToEntity(LotCreateRequestDto lotCreateRequestDto);
+    public abstract Lot mapToEntity(LotCreateRequestDto lotCreateRequestDto);
 
-    List<Lot> mapToEntity(List<LotCreateRequestDto> lotCreateRequestDtos);
+    @Named("mapBuyerFullname")
+    String getBuyerFullname(Trader buyer) {
+        if (buyer != null) {
+            return buyer.getSurname() + " " + buyer.getName() + " " + buyer.getPatronymic();
+        }
+        return null;
+    }
 
+    @Named("mapSellerFullname")
+    String getSellerFullname(Trader seller) {
+        if (seller != null) {
+            return seller.getSurname() + " " + seller.getName() + " " + seller.getPatronymic();
+        }
+        return null;
+    }
+
+    @Named("mapBuyerId")
+    Long getBuyerId(Trader buyer) {
+        if (buyer == null) {
+            return null;
+        }
+        return buyer.getId();
+    }
+
+    @Named("mapSellerId")
+    Long getSellerId(Trader seller) {
+        if (seller == null) {
+            return null;
+        }
+        return seller.getId();
+    }
 }

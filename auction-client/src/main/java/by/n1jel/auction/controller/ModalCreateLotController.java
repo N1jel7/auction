@@ -2,7 +2,6 @@ package by.n1jel.auction.controller;
 
 import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
-import by.n1jel.auction.exception.EmptyFieldException;
 import by.n1jel.auction.exception.UiAlertException;
 import by.n1jel.auction.service.AuctionLotClientService;
 import by.n1jel.auction.utils.AlertUtil;
@@ -26,8 +25,8 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 @RequiredArgsConstructor
 @Component
-@FxmlView("modal-create.fxml")
-public class ModalCreateController {
+@FxmlView("modal-create-lot.fxml")
+public class ModalCreateLotController {
 
     private final AuctionLotClientService clientService;
     private final FxWeaver fxWeaver;
@@ -74,7 +73,7 @@ public class ModalCreateController {
         if (lotResponseDto != null) {
             AlertUtil.getAlert(INFORMATION, "Success", "Lot successfully created")
                     .showAndWait();
-            fxWeaver.loadController(AuctionController.class).refreshLots();
+            fxWeaver.loadController(LotsActiveController.class).refreshLots();
             stage.close();
         }
     }

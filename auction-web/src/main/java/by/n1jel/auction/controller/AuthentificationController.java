@@ -1,8 +1,10 @@
-package by.n1jel.auction.web;
+package by.n1jel.auction.controller;
 
-import by.n1jel.auction.dto.*;
+import by.n1jel.auction.dto.AuthentificationResponseDto;
+import by.n1jel.auction.dto.LoginRequestDto;
+import by.n1jel.auction.dto.RegistrationRequestDto;
+import by.n1jel.auction.dto.RegistrationResponseDto;
 import by.n1jel.auction.service.AuthentificationService;
-import by.n1jel.auction.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class AuthentificationController {
 
     private final AuthentificationService authService;
-    private final UserService userService;
 
     @PostMapping("/login")
     public ResponseEntity<AuthentificationResponseDto> authorization(@RequestBody @Validated LoginRequestDto loginRequestDto) {

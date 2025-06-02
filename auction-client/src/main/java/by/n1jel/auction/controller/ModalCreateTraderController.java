@@ -2,9 +2,11 @@ package by.n1jel.auction.controller;
 
 import by.n1jel.auction.dto.LotCreateRequestDto;
 import by.n1jel.auction.dto.LotResponseDto;
-import by.n1jel.auction.dto.LotUpdateRequestDto;
+import by.n1jel.auction.dto.TraderCreateRequest;
+import by.n1jel.auction.dto.TraderResponseDto;
 import by.n1jel.auction.exception.UiAlertException;
 import by.n1jel.auction.service.AuctionLotClientService;
+import by.n1jel.auction.service.TraderClientService;
 import by.n1jel.auction.utils.AlertUtil;
 import javafx.fxml.FXML;
 import javafx.scene.Scene;
@@ -14,6 +16,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import lombok.RequiredArgsConstructor;
+import net.rgielen.fxweaver.core.FxWeaver;
 import net.rgielen.fxweaver.core.FxmlView;
 import org.springframework.stereotype.Component;
 
@@ -25,67 +28,68 @@ import static javafx.scene.control.Alert.AlertType.INFORMATION;
 
 @RequiredArgsConstructor
 @Component
-@FxmlView("modal-edit.fxml")
-public class ModalEditController {
+@FxmlView("modal-create-trader.fxml")
+public class ModalCreateTraderController {
 
-    private final AuctionLotClientService clientService;
+    private final TraderClientService traderService;
+    private final FxWeaver fxWeaver;
 
-    private final AuctionController auctionController;
-
-    private LotResponseDto currentLot;
     private Stage stage;
 
     @FXML
-    TextField nameField, priceField, typeField;
+    private TextField nameField;
+    @FXML
+    private TextField surnameField;
+    @FXML
+    private TextField patronymicField;
 
     @FXML
     Button saveButton, resetButton;
 
     @FXML
-    private VBox modalEditView;
+    private VBox modalCreateView;
 
     @FXML
     public void initialize() {
         this.stage = new Stage();
-        stage.setScene(new Scene(modalEditView));
+        stage.setScene(new Scene(modalCreateView));
 
     }
 
-    private LotUpdateRequestDto getUpdateRequest(){
-        if(!nameField.getText().trim().isEmpty() && !typeField.getText().trim().isEmpty() && !priceField.getText().trim().isEmpty()) {
-            return new LotUpdateRequestDto(nameField.getText(), typeField.getText(), new BigDecimal(priceField.getText()));
+    private TraderCreateRequest getCreateRequest(){
+        if(!nameField.getText().trim().isEmpty() && !surnameField.getText().trim().isEmpty() && !patronymicField.getText().trim().isEmpty()) {
+            return new TraderCreateRequest(surnameField.getText(), nameField.getText(), patronymicField.getText());
         } else {
             AlertUtil.getAlert(ERROR, "Some fields are missing", "Fill the empty fields first");
             return null;
         }
     }
 
-    public void edit() {
-        LotResponseDto lotResponseDto = null;
+    public void create() {
+        TraderResponseDto traderResponseDto = null;
         try{
-            lotResponseDto = clientService.updateById(currentLot.id(), getUpdateRequest());
+            traderResponseDto = traderService.createTrader(getCreateRequest());
         } catch (UiAlertException ex){
             AlertUtil.getAlert(ERROR, "Error", ex.getMessage(), ex.getDescription())
                     .showAndWait();
         }
-        if (lotResponseDto != null) {
-            AlertUtil.getAlert(INFORMATION, "Success", "Lot successfully updated")
+        if (traderResponseDto != null) {
+            AlertUtil.getAlert(INFORMATION, "Success", "Trader successfully created")
                     .showAndWait();
-            auctionController.refreshLots();
+            fxWeaver.loadController(TraderController.class).refreshTable();
             stage.close();
         }
     }
 
-    public void reset() {
-        nameField.setText(currentLot.name());
-        priceField.setText(currentLot.price().toString());
-        typeField.setText(currentLot.type());
+    public void clear() {
+        surnameField.clear();
+        nameField.clear();
+        patronymicField.clear();
     }
 
-    public void show(LotResponseDto currentLot) {
-        this.currentLot = currentLot;
+    public void show() {
         stage.initModality(Modality.WINDOW_MODAL);
-        stage.setTitle("Lot edit menu");
+        stage.setTitle("Trader creation");
         stage.showAndWait();
     }
 
