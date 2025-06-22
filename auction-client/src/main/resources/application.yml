@@ -1,7 +1,0 @@
-server:
-  application:
-    name: auction-client
-  port: 8081
-logging:
-  level:
-    by: debug
