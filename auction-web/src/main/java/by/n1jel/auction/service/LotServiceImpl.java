@@ -10,9 +10,11 @@ import by.n1jel.auction.mapper.LotMapper;
 import by.n1jel.auction.repository.LotRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -38,11 +40,29 @@ public class LotServiceImpl implements LotService {
     }
 
     @Override
+    public List<LotResponseDto> getLotsByType(String type) {
+        List<Lot> lotsPage = lotRepository.findLotsByType(type);
+        return lotMapper.mapEntityToResponse(lotsPage);
+    }
+
+    @Override
+    public List<LotResponseDto> getLotsByNameContains(String nameContaining) {
+        List<Lot> lotsPage = lotRepository.findLotsByNameContaining(nameContaining);
+        return lotMapper.mapEntityToResponse(lotsPage);
+    }
+
+    @Override
     public Page<LotResponseDto> getAllActive(int pageNumber, int pageSize) {
         Page<Lot> lotsPage = lotRepository.findLotsBySoldFalse(PageRequest.of(pageNumber, pageSize));
         if (lotsPage == null) {
             return null;
         }
+        return lotMapper.mapEntityToResponse(lotsPage);
+    }
+
+    @Override
+    public List<LotResponseDto> getActiveWithPriceRange(BigDecimal min, BigDecimal max) {
+        List<Lot> lotsPage = lotRepository.findLotsBySoldFalseAndPriceIsBetween(min, max);
         return lotMapper.mapEntityToResponse(lotsPage);
     }
 
@@ -53,6 +73,12 @@ public class LotServiceImpl implements LotService {
             return null;
         }
         return lotMapper.mapEntityToResponse(soldLots);
+    }
+
+    @Override
+    public List<LotResponseDto> getSoldWithPriceRange(BigDecimal min, BigDecimal max) {
+        List<Lot> lotsPage = lotRepository.findLotsBySoldTrueAndPriceIsBetween(min, max);
+        return lotMapper.mapEntityToResponse(lotsPage);
     }
 
 

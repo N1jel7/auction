@@ -4,6 +4,8 @@ logging:
     root: info
 
     # Spring props
+server:
+  port: 8080
 spring:
   application:
     name: my-auction

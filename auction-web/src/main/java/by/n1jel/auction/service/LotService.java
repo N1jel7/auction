@@ -6,6 +6,7 @@ import by.n1jel.auction.dto.LotUpdateRequestDto;
 import by.n1jel.auction.entity.Lot;
 import org.springframework.data.domain.Page;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,9 +16,17 @@ public interface LotService {
 
     Page<LotResponseDto> getAll(int pageNumber, int pageSize);
 
+    List<LotResponseDto> getLotsByType(String type);
+
+    List<LotResponseDto> getLotsByNameContains(String nameContaining);
+
     Page<LotResponseDto> getAllActive(int pageNumber, int pageSize);
 
+    List<LotResponseDto> getActiveWithPriceRange(BigDecimal min, BigDecimal max);
+
     Page<LotResponseDto> getAllSold(int pageNumber, int pageSize);
+
+    List<LotResponseDto> getSoldWithPriceRange(BigDecimal min, BigDecimal max);
 
     LotResponseDto findLotDtoById(Long id);
 
